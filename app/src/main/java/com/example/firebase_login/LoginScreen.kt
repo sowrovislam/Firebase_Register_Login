@@ -29,8 +29,6 @@ class LoginScreen : AppCompatActivity() {
 
         auth=FirebaseAuth.getInstance()
 
-       
-
 
 
         binding.buttonSignup.setOnClickListener {
@@ -88,20 +86,20 @@ class LoginScreen : AppCompatActivity() {
     }
 
 
-//    public override fun onStart() {
-//          super.onStart()
-//        val currentUser: FirebaseUser? = auth.currentUser
-//        if (currentUser!=null){
-//            val intent = Intent(this, UserFileActivity::class.java)
-//            startActivity(intent)
-//        }
-//    }
+    public override fun onStart() {
+          super.onStart()
+        val currentUser: FirebaseUser? = auth.currentUser
+        if (currentUser!=null){
+            val intent = Intent(this, UserFileActivity::class.java)
+            startActivity(intent)
+        }
+    }
 
 
 
     override fun onBackPressed() {
         super.onBackPressed()
+       finishAffinity()
 
-        finish()
     }
 }

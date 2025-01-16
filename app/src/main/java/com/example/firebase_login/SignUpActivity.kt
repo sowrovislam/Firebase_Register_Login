@@ -22,11 +22,13 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
 // Initialize Firebse Auth
 
         auth=FirebaseAuth.getInstance()
@@ -42,6 +44,7 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         binding.Register.setOnClickListener {
+            binding.progress.visibility=View.VISIBLE
             // Get text from EditText fields
             val email = binding.Email.text.toString().trim()
             val username = binding.username.text.toString().trim()
@@ -66,7 +69,7 @@ class SignUpActivity : AppCompatActivity() {
                     binding.progress.visibility = View.VISIBLE
                     if (task.isSuccessful) {
                         Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
-                        binding.progress.visibility = View.GONE
+
                         // Navigate to login screen
                         val intent = Intent(this, LoginScreen::class.java)
                         startActivity(intent)
@@ -74,7 +77,7 @@ class SignUpActivity : AppCompatActivity() {
                         // Optional: Finish the current activity
                         finish()
                     } else {
-                        binding.progress.visibility = View.VISIBLE
+                        binding.progress.visibility = View.GONE
                         // Handle registration failure
                         val errorMessage = task.exception?.localizedMessage ?: "Registration failed"
                         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
