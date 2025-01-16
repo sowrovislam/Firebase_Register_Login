@@ -37,12 +37,11 @@ class SignUpActivity : AppCompatActivity() {
 
             val intent = Intent(this, LoginScreen::class.java)
             startActivity(intent)
-            finish()
+
 
         }
 
         binding.Register.setOnClickListener {
-            binding.progress.visibility = View.VISIBLE
             // Get text from EditText fields
             val email = binding.Email.text.toString().trim()
             val username = binding.username.text.toString().trim()
@@ -52,19 +51,19 @@ class SignUpActivity : AppCompatActivity() {
             // Check for empty fields
             if (email.isEmpty() || username.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {
                 Toast.makeText(this, "Please fill all the details", Toast.LENGTH_SHORT).show()
-
+                return@setOnClickListener
             }
 
             // Check if passwords match
             if (password != repeatPassword) {
                 Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
-
+                return@setOnClickListener
             }
 
             // Create a new user with Firebase Authentication
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
-                    binding.progress.visibility = View.GONE
+                    binding.progress.visibility = View.VISIBLE
                     if (task.isSuccessful) {
                         Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
                         binding.progress.visibility = View.GONE

@@ -45,77 +45,63 @@ class LoginScreen : AppCompatActivity() {
 
         binding.buttonlogin.setOnClickListener {
 
-            val userName=binding.userName.text.toString()
-            val password=binding.passwrd.text.toString()
+            val userName = binding.userName.text.toString()
+            val password = binding.passwrd.text.toString()
 
 
 
-if (userName.isEmpty()||password.isEmpty()){
+            if (userName.isEmpty() || password.isEmpty()) {
 
-Toast.makeText(this,"PlaseFill All The Data",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "PlaseFill All The Data", Toast.LENGTH_SHORT).show()
 
-}else{
-
-
-
-    auth.signInWithEmailAndPassword(userName,password)
-        .addOnCompleteListener { task->
-
-            if (task.isSuccessful){
-
-                Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
-
-                val intent = Intent(this, UserFileActivity::class.java)
-                startActivity(intent)
+            } else {
 
 
-            }else{
+                auth.signInWithEmailAndPassword(userName, password)
+                    .addOnCompleteListener { task ->
 
-                Toast.makeText(this, "Login Err!${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                        if (task.isSuccessful) {
 
+                            Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+
+                            val intent = Intent(this, UserFileActivity::class.java)
+                            startActivity(intent)
+
+
+                        } else {
+
+                            Toast.makeText(
+                                this,
+                                "Login Err!${task.exception?.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+
+                        }
+
+                    }
 
 
             }
-
         }
-
-
-}
-
-
-
-
-
-
-
-        }
-
-
-
-
-
-
-
-
-
-
-
 
     }
-    public override fun onStart() {
-        super.onStart()
-        val currentUser: FirebaseUser? = auth.currentUser
-        if (currentUser!=null){
-            val intent = Intent(this, UserFileActivity::class.java)
-            startActivity(intent)
-        }
-    }
+
+
+//    public override fun onStart() {
+//          super.onStart()
+//        val currentUser: FirebaseUser? = auth.currentUser
+//        if (currentUser!=null){
+//            val intent = Intent(this, UserFileActivity::class.java)
+//            startActivity(intent)
+//        }
+//    }
 
 
 
     override fun onBackPressed() {
         super.onBackPressed()
-        finishAffinity()
+
         finish()
     }
 }
